@@ -17,13 +17,14 @@ public class FilmController {
     private Map<Integer, Film> films = new HashMap();
     private int generatedId = 1;
 
-    @PostMapping
+    @PostMapping()
     public Film postFilm(@Valid @RequestBody Film film) {
-        if (validation(film)) {
-            film.setId(assignId());
-            films.put(film.getId(), film);
-            log.debug("Успешно добавлен фильм: {}", film);
-        }
+
+        validation(film);
+        film.setId(assignId());
+        films.put(film.getId(), film);
+        log.debug("Успешно добавлен фильм: {}", film);
+
         return film;
     }
 
@@ -44,8 +45,8 @@ public class FilmController {
         return generatedId++;
     }
 
-    private boolean validation(Film film) throws ValidationException {
-        if (film.getDescription().length() > 201) {
+    private void validation(Film film) throws ValidationException {
+        if (film.getDescription().length() > 200) {
             throw new ValidationException("Количество символов превышает 200");
         }
         if (film.getReleaseDate().isBefore(LocalDate.parse("1895-12-28"))) {
@@ -54,6 +55,5 @@ public class FilmController {
         if (film.getDuration() <= 0) {
             throw new ValidationException("Отрицательная продолжительность фильма");
         }
-        return true;
     }
 }

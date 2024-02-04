@@ -6,7 +6,6 @@ import ru.yandex.practicum.filmorate.exceptions.ValidationException;
 import ru.yandex.practicum.filmorate.model.User;
 
 import javax.validation.Valid;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -26,11 +25,12 @@ public class UserController {
 
     @PostMapping
     public User postUser(@Valid @RequestBody User user) {
-        if (isValidation(user)) {
-            user.setId(assignId());
-            users.put(user.getId(), user);
-            log.debug("Добавлен пользователь {}", user);
-        }
+        isValidation(user);
+
+        user.setId(assignId());
+        users.put(user.getId(), user);
+        log.debug("Добавлен пользователь {}", user);
+
         return user;
     }
 
@@ -46,14 +46,9 @@ public class UserController {
         return generatedId++;
     }
 
-    private boolean isValidation(User user) throws ValidationException {
-
+    private void isValidation(User user) throws ValidationException {
         if (user.getName() == null || user.getName().isBlank()) {
             user.setName(user.getLogin());
         }
-        if (user.getBirthday().isAfter(LocalDate.now()))
-            throw new ValidationException("Ошибка ввода дня рождения!");
-
-        return true;
     }
 }
