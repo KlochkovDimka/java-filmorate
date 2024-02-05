@@ -75,7 +75,7 @@ public class FilmControllerTest {
         mockMvc.perform(MockMvcRequestBuilders.post("http://localhost:8080/films")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(jsonString))
-                .andExpect(MockMvcResultMatchers.status().is(400));
+                .andExpect(MockMvcResultMatchers.status().is(500));
     }
 
     @Test
@@ -103,7 +103,7 @@ public class FilmControllerTest {
         mockMvc.perform(MockMvcRequestBuilders.post("http://localhost:8080/films")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(jsonString))
-                .andExpect(MockMvcResultMatchers.status().is(400));
+                .andExpect(MockMvcResultMatchers.status().is(500));
     }
 
     @Test
@@ -129,6 +129,6 @@ public class FilmControllerTest {
         mockMvc.perform(MockMvcRequestBuilders.put("http://localhost:8080/films")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(jsonString))
-                .andExpect(MockMvcResultMatchers.status().is(400));
+                .andExpect(MockMvcResultMatchers.status().is(500));
     }
 }

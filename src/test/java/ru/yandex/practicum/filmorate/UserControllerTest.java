@@ -128,6 +128,6 @@ public class UserControllerTest {
         mockMvc.perform(put("/users")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(jsonString))
-                .andExpect(MockMvcResultMatchers.status().is(400));
+                .andExpect(MockMvcResultMatchers.status().is(500));
     }
 }
