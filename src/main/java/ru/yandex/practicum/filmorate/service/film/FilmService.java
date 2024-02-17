@@ -45,8 +45,8 @@ public class FilmService {
     public List<Film> getListPopularFilm(int count) {
         ArrayList<Film> listSortFilm = new ArrayList<>(inMemoryFilmStorage.getListFilms());
 
-        return listSortFilm.stream().
-                sorted((f1, f2) -> {
+        return listSortFilm.stream()
+                .sorted((f1, f2) -> {
                     if (listSortFilm.size() == 1 && f1.getLikesFromUsers().size() == 0) return 1;
                     int temp = f1.getLikesFromUsers().size() - f2.getLikesFromUsers().size();
                     return temp * -1;
