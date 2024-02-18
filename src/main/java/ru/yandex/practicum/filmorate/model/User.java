@@ -7,8 +7,12 @@ import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * User.
+ */
 @Data
 public class User {
+
     private int id;
     private Set<Integer> friends = new HashSet<>();
 
@@ -25,6 +29,10 @@ public class User {
 
     @Past
     private LocalDate birthday;
+
+    public Set<Integer> getFriends() {
+        return new HashSet<>(friends);
+    }
 
     //Добавление в друзья
     public void addFriends(int idFriend) {

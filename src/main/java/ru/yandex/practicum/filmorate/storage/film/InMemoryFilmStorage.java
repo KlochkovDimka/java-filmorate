@@ -52,7 +52,9 @@ public class InMemoryFilmStorage implements FilmStorage {
 
     //Проверка на наличие фильма по идентификационному номеру
     public void isFilm(int filmId) {
-        if (!films.containsKey(filmId)) throw new NotExistFilmException("Фильма с данным id не существует");
+        if (!films.containsKey(filmId)) {
+            throw new NotExistFilmException("Фильма с данным id не существует");
+        }
     }
 
     private int assignID() {

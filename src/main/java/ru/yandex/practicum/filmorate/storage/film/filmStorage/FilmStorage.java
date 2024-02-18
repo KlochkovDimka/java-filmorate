@@ -15,4 +15,7 @@ public interface FilmStorage {
     Film getFilm(int id);
 
     ArrayList<Film> getListFilms();
+
+    void isFilm(int idFilm);
+
 }

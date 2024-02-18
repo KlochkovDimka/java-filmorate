@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.service.user.UserService;
-import ru.yandex.practicum.filmorate.storage.user.InMemoryUserStorage;
 
 import javax.validation.Valid;
 import java.util.*;
@@ -14,38 +13,35 @@ import java.util.*;
 @RequestMapping("/users")
 @Slf4j
 public class UserController {
-
-    private final InMemoryUserStorage inMemoryUserStorage;
     private final UserService userService;
 
     @Autowired
-    public UserController(InMemoryUserStorage inMemoryUserStorage, UserService userService) {
-        this.inMemoryUserStorage = inMemoryUserStorage;
+    public UserController(UserService userService) {
         this.userService = userService;
     }
 
     @GetMapping
     public ArrayList<User> getUsers() {
-        return inMemoryUserStorage.getUserList();
+        return userService.getUserList();
     }
 
     @PostMapping
     public User postUser(@Valid @RequestBody User user) {
         isValidation(user);
-        inMemoryUserStorage.addUser(user);
+        userService.addUser(user);
         return user;
     }
 
     @PutMapping
     public User putUser(@RequestBody User user) {
         isValidation(user);
-        inMemoryUserStorage.updateUser(user);
+        userService.updateUser(user);
         return user;
     }
 
     @GetMapping("{id}")
     public User getUserById(@PathVariable("id") int id) {
-        return inMemoryUserStorage.getUser(id);
+        return userService.getUserById(id);
     }
 
     @PutMapping("{id}/friends/{friendId}")
@@ -73,7 +69,6 @@ public class UserController {
     public ArrayList<User> getCommonFriends(
             @PathVariable int id,
             @PathVariable int otherId) {
-
         return userService.getListCommonFriends(id, otherId);
     }
 

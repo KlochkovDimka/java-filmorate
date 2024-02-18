@@ -29,6 +29,10 @@ public class Film {
     @Positive
     private long duration;
 
+    public Set<Integer> getLikesFromUsers() {
+        return new HashSet<>(likesFromUsers);
+    }
+
     //Добавление лайка
     public void addLike(int userId) {
         likesFromUsers.add(userId);

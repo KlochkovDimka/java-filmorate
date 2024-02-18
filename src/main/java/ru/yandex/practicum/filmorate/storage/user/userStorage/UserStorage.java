@@ -15,4 +15,6 @@ public interface UserStorage {
     User getUser(int id);
 
     ArrayList<User> getUserList();
+
+    void isUser(int userId);
 }

@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.*;
 import ru.yandex.practicum.filmorate.exceptions.NotParamFilmException;
 import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.service.film.FilmService;
-import ru.yandex.practicum.filmorate.storage.film.InMemoryFilmStorage;
 
 import javax.validation.Valid;
 import java.time.LocalDate;
@@ -17,37 +16,35 @@ import java.util.*;
 @Slf4j
 public class FilmController {
 
-    private final InMemoryFilmStorage inMemoryFilmStorage;
     private final FilmService filmService;
 
     @Autowired
-    public FilmController(InMemoryFilmStorage inMemoryFilmStorage, FilmService filmService) {
-        this.inMemoryFilmStorage = inMemoryFilmStorage;
+    public FilmController(FilmService filmService) {
         this.filmService = filmService;
     }
 
     @PostMapping()
     public Film postFilm(@Valid @RequestBody Film film) {
         validation(film);
-        inMemoryFilmStorage.addFilm(film);
+        filmService.addFilm(film);
         return film;
     }
 
     @PutMapping
     public Film putFilm(@Valid @RequestBody Film film) {
         validation(film);
-        inMemoryFilmStorage.updateFilm(film);
+        filmService.updateFilm(film);
         return film;
     }
 
     @GetMapping
     public ArrayList<Film> getFilms() {
-        return inMemoryFilmStorage.getListFilms();
+        return filmService.getListFilm();
     }
 
     @GetMapping("{id}")
     public Film getFilmById(@PathVariable("id") int filmId) {
-        return inMemoryFilmStorage.getFilm(filmId);
+        return filmService.getFilmById(filmId);
     }
 
     @PutMapping("{id}/like/{userId}")
@@ -64,7 +61,7 @@ public class FilmController {
 
     @GetMapping("/popular")
     public ArrayList<Film> getPopularFilm(
-            @RequestParam(defaultValue = "10", required = false) Integer count) {
+            @RequestParam(defaultValue = "10") Integer count) {
         return (ArrayList<Film>) filmService.getListPopularFilm(count);
     }
 
