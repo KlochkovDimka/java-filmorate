@@ -55,7 +55,7 @@ public class InMemoryUserStorage implements UserStorage {
     //Проверка на наличие пользователя
     public void isUser(int idUser) {
         if (!users.containsKey(idUser)) {
-            throw new NotExistUserException(String.format("Пользователь c id: $s, не найден", idUser ));
+            throw new NotExistUserException(String.format("Пользователь c id: $s, не найден", idUser));
         }
     }
 
