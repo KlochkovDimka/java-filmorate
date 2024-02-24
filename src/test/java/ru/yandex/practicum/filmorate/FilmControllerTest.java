@@ -68,14 +68,14 @@ public class FilmControllerTest {
         String jsonString = "{\"name\":\"film\"," +
                 "\"description\":\"Lorem ipsum dolor sit amet, consectetur adipiscing elit. " +
                 "Quisque laoreet interdum odio, vel imperdiet neque lobortis sed. Fusce consequat " +
-                "bibendum erat, in eleifend dolor posuere sed. Nulla facilisi...\", " +
+                "bibendum erat, in eleifend dolor posuere sed. Nulla facilisi....\", " +
                 "\"releaseDate\":\"2008-10-12\", " +
                 "\"duration\":120}";
 
         mockMvc.perform(MockMvcRequestBuilders.post("http://localhost:8080/films")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(jsonString))
-                .andExpect(MockMvcResultMatchers.status().is(500));
+                .andExpect(MockMvcResultMatchers.status().is(400));
     }
 
     @Test
@@ -103,7 +103,7 @@ public class FilmControllerTest {
         mockMvc.perform(MockMvcRequestBuilders.post("http://localhost:8080/films")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(jsonString))
-                .andExpect(MockMvcResultMatchers.status().is(500));
+                .andExpect(MockMvcResultMatchers.status().is(400));
     }
 
     @Test
@@ -129,6 +129,41 @@ public class FilmControllerTest {
         mockMvc.perform(MockMvcRequestBuilders.put("http://localhost:8080/films")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(jsonString))
-                .andExpect(MockMvcResultMatchers.status().is(500));
+                .andExpect(MockMvcResultMatchers.status().is(404));
+
+    }
+
+    @Test
+    public void putLikeFilm() throws Exception {
+
+        String user = "{\"email\":\"yandex@mail.ru\", " +
+                "\"login\":\"login\", " +
+                "\"name\":\"name\", " +
+                "\"birthday\":\"2008-10-12\"} ";
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/users")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(user));
+
+        mockMvc.perform(MockMvcRequestBuilders.put("http://localhost:8080/films/1/like/1")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().is(200));
+    }
+
+    @Test
+    public void deleteLikeFilm() throws Exception {
+
+        String user = "{\"email\":\"yandex@mail.ru\", " +
+                "\"login\":\"login\", " +
+                "\"name\":\"name\", " +
+                "\"birthday\":\"2008-10-12\"} ";
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/users")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(user));
+
+        mockMvc.perform(MockMvcRequestBuilders.delete("http://localhost:8080/films/1/like/1")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().is(200));
     }
 }

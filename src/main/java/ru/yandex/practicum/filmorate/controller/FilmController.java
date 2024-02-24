@@ -1,9 +1,11 @@
 package ru.yandex.practicum.filmorate.controller;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import ru.yandex.practicum.filmorate.exceptions.ValidationException;
+import ru.yandex.practicum.filmorate.exceptions.NotParamFilmException;
 import ru.yandex.practicum.filmorate.model.Film;
+import ru.yandex.practicum.filmorate.service.film.FilmService;
 
 import javax.validation.Valid;
 import java.time.LocalDate;
@@ -14,46 +16,58 @@ import java.util.*;
 @Slf4j
 public class FilmController {
 
-    private Map<Integer, Film> films = new HashMap();
-    private int generatedId = 1;
+    private final FilmService filmService;
+
+    @Autowired
+    public FilmController(FilmService filmService) {
+        this.filmService = filmService;
+    }
 
     @PostMapping()
     public Film postFilm(@Valid @RequestBody Film film) {
-
         validation(film);
-        film.setId(assignId());
-        films.put(film.getId(), film);
-        log.debug("Успешно добавлен фильм: {}", film);
-
+        filmService.addFilm(film);
         return film;
     }
 
     @PutMapping
-    public Film putFilm(@RequestBody Film film) {
-        if (!films.containsKey(film.getId())) throw new ValidationException();
-        films.put(film.getId(), film);
-        log.debug("Добавлен film: {}", film);
+    public Film putFilm(@Valid @RequestBody Film film) {
+        validation(film);
+        filmService.updateFilm(film);
         return film;
     }
 
     @GetMapping
     public ArrayList<Film> getFilms() {
-        return new ArrayList<>(films.values());
+        return filmService.getListFilm();
     }
 
-    private int assignId() {
-        return generatedId++;
+    @GetMapping("{id}")
+    public Film getFilmById(@PathVariable("id") int filmId) {
+        return filmService.getFilmById(filmId);
     }
 
-    private void validation(Film film) throws ValidationException {
-        if (film.getDescription().length() > 200) {
-            throw new ValidationException("Количество символов превышает 200");
-        }
+    @PutMapping("{id}/like/{userId}")
+    public void putLikeByFilm(@PathVariable("id") int id,
+                              @PathVariable("userId") int userId) {
+        filmService.addFilmLike(id, userId);
+    }
+
+    @DeleteMapping("{id}/like/{userId}")
+    public void deleteLikeByFilm(@PathVariable("id") int id,
+                                 @PathVariable("userId") int userId) {
+        filmService.deleteFilmLike(id, userId);
+    }
+
+    @GetMapping("/popular")
+    public ArrayList<Film> getPopularFilm(
+            @RequestParam(defaultValue = "10") Integer count) {
+        return (ArrayList<Film>) filmService.getListPopularFilm(count);
+    }
+
+    private void validation(Film film) throws NotParamFilmException {
         if (film.getReleaseDate().isBefore(LocalDate.parse("1895-12-28"))) {
-            throw new ValidationException("Неверная дата релиза фильма");
-        }
-        if (film.getDuration() <= 0) {
-            throw new ValidationException("Отрицательная продолжительность фильма");
+            throw new NotParamFilmException("Неверная дата релиза фильма");
         }
     }
 }
