@@ -3,6 +3,7 @@ package ru.yandex.practicum.filmorate.service.user;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ru.yandex.practicum.filmorate.model.StatusFriendship;
 import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.storage.user.InMemoryUserStorage;
 import ru.yandex.practicum.filmorate.storage.user.userStorage.UserStorage;
@@ -43,8 +44,8 @@ public class UserService {
         inMemoryUserStorage.isUser(idUser);
         inMemoryUserStorage.isUser(idFriend);
 
-        inMemoryUserStorage.getUser(idUser).addFriends(idFriend);
-        inMemoryUserStorage.getUser(idFriend).addFriends(idUser);
+        inMemoryUserStorage.getUser(idUser).addFriends(idFriend, StatusFriendship.CONFIRMED);
+        inMemoryUserStorage.getUser(idFriend).addFriends(idUser, StatusFriendship.CONFIRMED);
     }
 
     //Удаление из друзей

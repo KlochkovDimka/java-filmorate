@@ -4,7 +4,9 @@ import lombok.Data;
 
 import javax.validation.constraints.*;
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -14,14 +16,12 @@ import java.util.Set;
 public class User {
 
     private int id;
-    private Set<Integer> friends = new HashSet<>();
+    private Map<Integer, StatusFriendship> friends = new HashMap<>();
 
-    @NotNull
     @NotBlank
     @Email
     private String email;
 
-    @NotNull
     @NotBlank
     private String login;
 
@@ -31,12 +31,12 @@ public class User {
     private LocalDate birthday;
 
     public Set<Integer> getFriends() {
-        return new HashSet<>(friends);
+        return new HashSet<>(friends.keySet());
     }
 
     //Добавление в друзья
-    public void addFriends(int idFriend) {
-        friends.add(idFriend);
+    public void addFriends(int idFriend, StatusFriendship status) {
+        friends.put(idFriend, status);
     }
 
     //Удаление из друзей

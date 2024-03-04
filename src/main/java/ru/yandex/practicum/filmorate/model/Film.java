@@ -4,7 +4,9 @@ import lombok.Data;
 
 import javax.validation.constraints.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -17,7 +19,6 @@ public class Film {
 
     private int id;
 
-    @NotNull
     @NotBlank
     private String name;
 
@@ -28,6 +29,11 @@ public class Film {
 
     @Positive
     private long duration;
+
+    @NotBlank
+    private String rating;
+
+    private List<Genre> genres = new ArrayList<>();
 
     public Set<Integer> getLikesFromUsers() {
         return new HashSet<>(likesFromUsers);
@@ -41,5 +47,13 @@ public class Film {
     //Удаление лайка
     public void deleteLike(int userId) {
         likesFromUsers.remove(userId);
+    }
+
+    public void addGenreToFilm(Genre genre){
+        genres.add(genre);
+    }
+
+    public List<Genre> getGenresFilm(){
+        return new ArrayList<>(genres);
     }
 }
