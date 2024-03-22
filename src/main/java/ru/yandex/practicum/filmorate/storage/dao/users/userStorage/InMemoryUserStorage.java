@@ -1,33 +1,34 @@
-package ru.yandex.practicum.filmorate.storage.user;
+package ru.yandex.practicum.filmorate.storage.dao.users.userStorage;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import ru.yandex.practicum.filmorate.exceptions.NotExistUserException;
 import ru.yandex.practicum.filmorate.model.User;
-import ru.yandex.practicum.filmorate.storage.user.userStorage.UserStorage;
+import ru.yandex.practicum.filmorate.storage.dao.users.UserStorage;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 @Component
+@Qualifier("InMemoryUserStorage")
 @Slf4j
 public class InMemoryUserStorage implements UserStorage {
 
     private int generatedId = 1;
 
-    private final Map<Integer, User> users = new HashMap<>();
+    private final Map<Long, User> users = new HashMap<>();
 
     //Добавление пользователя
     @Override
-    public void addUser(User user) {
+    public User addUser(User user) {
         user.setId(assignId());
         users.put(user.getId(), user);
+        return user;
     }
 
     //Удаление пользователя
     @Override
-    public void deleteUser(int id) {
+    public void deleteUser(long id) {
         isUser(id);
         users.remove(id);
     }
@@ -41,19 +42,19 @@ public class InMemoryUserStorage implements UserStorage {
 
     //Получение пользователя по идентификационному номеру
     @Override
-    public User getUser(int id) {
+    public Optional<User> getUser(long id) {
         isUser(id);
-        return users.get(id);
+        return Optional.of(users.get(id));
     }
 
     //Получение списка пользователей
     @Override
-    public ArrayList<User> getUserList() {
+    public List<User> getUserList() {
         return new ArrayList<>(users.values());
     }
 
     //Проверка на наличие пользователя
-    public void isUser(int idUser) {
+    public void isUser(long idUser) {
         if (!users.containsKey(idUser)) {
             throw new NotExistUserException(String.format("Пользователь c id: $s, не найден", idUser));
         }

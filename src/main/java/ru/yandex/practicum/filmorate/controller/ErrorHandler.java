@@ -10,15 +10,18 @@ import ru.yandex.practicum.filmorate.model.ErrorResponse;
 @RestControllerAdvice
 public class ErrorHandler {
 
-    @ExceptionHandler({NotExistUserException.class, NotExistFilmException.class})
+    @ExceptionHandler({NotExistUserException.class,
+            NotExistFilmException.class,
+            NotExistMpaException.class,
+            NotExistGenreException.class})
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ErrorResponse userNotFound(RuntimeException e) {
         return new ErrorResponse(e.getMessage());
     }
 
-    @ExceptionHandler
+    @ExceptionHandler({NotParamFilmException.class, NotExistMpaBadRequestException.class})
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ErrorResponse userBadRequest(NotParamFilmException e) {
+    public ErrorResponse userBadRequest(RuntimeException e) {
         return new ErrorResponse(e.getMessage());
     }
 }

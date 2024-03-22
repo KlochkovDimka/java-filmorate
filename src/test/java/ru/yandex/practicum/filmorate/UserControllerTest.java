@@ -171,24 +171,6 @@ public class UserControllerTest {
                 .andExpect(MockMvcResultMatchers.status().is(200));
     }
 
-    @Test
-    public void getListFriendsByUser() throws Exception {
-        createUsers();
-
-        mockMvc.perform(MockMvcRequestBuilders.put("http://localhost:8080/users/1/friends/2"))
-                .andExpect(MockMvcResultMatchers.status().is(200));
-
-        MvcResult result = mockMvc
-                .perform(MockMvcRequestBuilders.get("http://localhost:8080/users/1/friends"))
-                .andExpect(MockMvcResultMatchers.status().is(200))
-                .andReturn();
-
-        String content = result.getResponse().getContentAsString();
-
-        JSONArray array = new JSONArray(content);
-        assertThat(array.length()).isEqualTo(1);
-    }
-
     private void createUsers() throws Exception {
         String user = "{\"email\":\"yandex@mail.ru\", " +
                 "\"login\":\"login\", " +

@@ -1,15 +1,18 @@
-package ru.yandex.practicum.filmorate.storage.film;
+package ru.yandex.practicum.filmorate.storage.dao.films.impl;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import ru.yandex.practicum.filmorate.exceptions.NotExistFilmException;
 import ru.yandex.practicum.filmorate.model.Film;
-import ru.yandex.practicum.filmorate.storage.film.filmStorage.FilmStorage;
+import ru.yandex.practicum.filmorate.storage.dao.films.FilmStorage;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 @Component
+@Qualifier("InMemoryFilmStorage")
 public class InMemoryFilmStorage implements FilmStorage {
 
     private int generatedId = 1;
@@ -18,9 +21,10 @@ public class InMemoryFilmStorage implements FilmStorage {
 
     //Добавление нового фильма
     @Override
-    public void addFilm(Film film) {
+    public Film saveFilm(Film film) {
         film.setId(assignID());
         films.put(film.getId(), film);
+        return film;
     }
 
     //Удаление фильма по идентификационному номеру
@@ -39,9 +43,9 @@ public class InMemoryFilmStorage implements FilmStorage {
 
     //Получение фильма по идентификационному номеру
     @Override
-    public Film getFilm(int id) {
+    public Optional<Film> getFilm(int id) {
         isFilm(id);
-        return films.get(id);
+        return Optional.of(films.get(id));
     }
 
     //Получение списка фильмов
