@@ -2,7 +2,6 @@ package ru.yandex.practicum.filmorate;
 
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Test;
-import org.opentest4j.AssertionFailedError;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -110,7 +109,8 @@ public class UserDbStorageTest {
         userDbStorage.addUser(newUserOne);
 
         assertThrows(NotExistUserException.class, () -> {
-            userDbStorage.updateUser(newUserTwo);;
+            userDbStorage.updateUser(newUserTwo);
+            ;
         });
     }
 }

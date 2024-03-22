@@ -25,7 +25,7 @@ public class FriendshipDbStorageDaoTest {
     private final JdbcTemplate jdbcTemplate;
 
     @Test
-    public void testFindFriendsUserById(){
+    public void testFindFriendsUserById() {
         UserDbStorage userDbStorage = new UserDbStorage(jdbcTemplate);
         FriendshipDbStorageDaoImpl friendshipStorageDao = new FriendshipDbStorageDaoImpl(jdbcTemplate);
 
@@ -42,8 +42,9 @@ public class FriendshipDbStorageDaoTest {
 
         assertEquals(1, friendsList.size());
     }
+
     @Test
-    public void testFindFriendsUserFailById(){
+    public void testFindFriendsUserFailById() {
         UserDbStorage userDbStorage = new UserDbStorage(jdbcTemplate);
         FriendshipDbStorageDaoImpl friendshipStorageDao = new FriendshipDbStorageDaoImpl(jdbcTemplate);
 
@@ -57,12 +58,13 @@ public class FriendshipDbStorageDaoTest {
 
         friendshipStorageDao.addInListFriendsById(newUserOne.getId(), newUserTwo.getId(), 1);
 
-        assertThrows(NotExistUserException.class, ()->{
+        assertThrows(NotExistUserException.class, () -> {
             friendshipStorageDao.findFriendsUserById(3L);
         });
     }
+
     @Test
-    public void testDeleteFriendById(){
+    public void testDeleteFriendById() {
         UserDbStorage userDbStorage = new UserDbStorage(jdbcTemplate);
         FriendshipDbStorageDaoImpl friendshipStorageDao = new FriendshipDbStorageDaoImpl(jdbcTemplate);
         User newUserOne = new User(1L, "user@email.ru", "vanya123", "Ivan Petrov",
@@ -81,7 +83,7 @@ public class FriendshipDbStorageDaoTest {
     }
 
     @Test
-    public void testFindListCommonFriendsById(){
+    public void testFindListCommonFriendsById() {
         UserDbStorage userDbStorage = new UserDbStorage(jdbcTemplate);
         FriendshipDbStorageDaoImpl friendshipStorageDao = new FriendshipDbStorageDaoImpl(jdbcTemplate);
         User newUserOne = new User(1L, "user@email.ru", "vanya123", "Ivan Petrov",

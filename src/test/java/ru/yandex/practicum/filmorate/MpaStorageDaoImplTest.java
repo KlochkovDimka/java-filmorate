@@ -21,7 +21,7 @@ public class MpaStorageDaoImplTest {
     private final JdbcTemplate jdbcTemplate;
 
     @Test
-    public void getAllMpaTest(){
+    public void getAllMpaTest() {
         MpaStorageDaoImpl mpaStorageDao = new MpaStorageDaoImpl(jdbcTemplate);
 
         List<Mpa> list = mpaStorageDao.getAllMpa();
@@ -30,7 +30,7 @@ public class MpaStorageDaoImplTest {
     }
 
     @Test
-    public void getMpaByIdTest(){
+    public void getMpaByIdTest() {
         MpaStorageDaoImpl mpaStorageDao = new MpaStorageDaoImpl(jdbcTemplate);
 
         Mpa mpa = mpaStorageDao.getMpaById(2);

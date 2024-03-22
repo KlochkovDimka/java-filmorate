@@ -27,7 +27,7 @@ public class GenresFilmsStorageDaoImplTest {
     private final JdbcTemplate jdbcTemplate;
 
     @Test
-    public void findGenresFilmById(){
+    public void findGenresFilmById() {
         Film newFilm = new Film(1,
                 "nisi eiusmod",
                 "adipisicing",
@@ -37,16 +37,16 @@ public class GenresFilmsStorageDaoImplTest {
         GenresFilmsStorageDaoImpl genresFilmsStorageDao = new GenresFilmsStorageDaoImpl(jdbcTemplate);
         MpaStorageDaoImpl mpaStorageDao = new MpaStorageDaoImpl(jdbcTemplate);
         FilmDbStorage filmDbStorage = new FilmDbStorage(jdbcTemplate, genresFilmsStorageDao, mpaStorageDao);
-        newFilm.setGenres(List.of(new Genre(1,"Комедия"), new Genre(2,"Драма")));
+        newFilm.setGenres(List.of(new Genre(1, "Комедия"), new Genre(2, "Драма")));
         filmDbStorage.saveFilm(newFilm);
 
-       List<Genre> list = genresFilmsStorageDao.findGenresFilmById(newFilm.getId());
+        List<Genre> list = genresFilmsStorageDao.findGenresFilmById(newFilm.getId());
 
-        assertEquals(2,list.size());
+        assertEquals(2, list.size());
     }
 
     @Test
-    public void findAllGenresTest(){
+    public void findAllGenresTest() {
         GenresFilmsStorageDaoImpl genresFilmsStorageDao = new GenresFilmsStorageDaoImpl(jdbcTemplate);
         List<Genre> genreList = genresFilmsStorageDao.findAllGenres();
 
@@ -54,7 +54,7 @@ public class GenresFilmsStorageDaoImplTest {
     }
 
     @Test
-    public void getGenreByIdTest(){
+    public void getGenreByIdTest() {
         GenresFilmsStorageDaoImpl genresFilmsStorageDao = new GenresFilmsStorageDaoImpl(jdbcTemplate);
 
         Genre genre = genresFilmsStorageDao.getGenreById(1);
@@ -63,10 +63,10 @@ public class GenresFilmsStorageDaoImplTest {
     }
 
     @Test
-    public void getGenreByFailIdTest(){
+    public void getGenreByFailIdTest() {
         GenresFilmsStorageDaoImpl genresFilmsStorageDao = new GenresFilmsStorageDaoImpl(jdbcTemplate);
 
-        assertThrows(NotExistGenreException.class, ()->{
+        assertThrows(NotExistGenreException.class, () -> {
             genresFilmsStorageDao.getGenreById(12);
         });
     }
