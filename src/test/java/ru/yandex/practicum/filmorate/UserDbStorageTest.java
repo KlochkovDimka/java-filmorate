@@ -93,7 +93,7 @@ public class UserDbStorageTest {
         userDbStorage.addUser(newUserOne);
 
         userDbStorage.updateUser(newUserTwo);
-        User updateUser = userDbStorage.getUser(1l).get();
+        User updateUser = userDbStorage.getUser(1L).get();
 
         assertThat(updateUser)
                 .isNotNull()
@@ -110,7 +110,6 @@ public class UserDbStorageTest {
 
         assertThrows(NotExistUserException.class, () -> {
             userDbStorage.updateUser(newUserTwo);
-            ;
         });
     }
 }
