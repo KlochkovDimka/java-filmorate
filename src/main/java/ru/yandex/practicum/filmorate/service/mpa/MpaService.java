@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 import ru.yandex.practicum.filmorate.model.Mpa;
 import ru.yandex.practicum.filmorate.storage.dao.mpa.MpaStorageDao;
 
-import javax.validation.constraints.AssertFalse;
 import java.util.List;
 
 @Service
