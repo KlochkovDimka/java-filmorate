@@ -12,7 +12,6 @@ import ru.yandex.practicum.filmorate.storage.dao.users.userStorage.UserDbStorage
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.NoSuchElementException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -27,12 +26,13 @@ public class UserDbStorageTest {
     @Test
     public void testFindUserById() {
         // Подготавливаем данные для теста
-        User newUser = new User(1L, "user@email.ru", "vanya123", "Ivan Petrov", LocalDate.of(1990, 1, 1));
+        User newUser = new User(1L, "user@email.ru", "vanya123", "Ivan Petrov",
+                LocalDate.of(1990, 1, 1));
         UserDbStorage userStorage = new UserDbStorage(jdbcTemplate);
         userStorage.addUser(newUser);
 
         // вызываем тестируемый метод
-        User savedUser = userStorage.getUser(1).get();
+        User savedUser = userStorage.getUser(1);
 
         // проверяем утверждения
         assertThat(savedUser)
@@ -49,8 +49,8 @@ public class UserDbStorageTest {
         UserDbStorage userStorage = new UserDbStorage(jdbcTemplate);
         userStorage.addUser(newUser);
 
-        assertThrows(NoSuchElementException.class, () -> {
-            User savedUser = userStorage.getUser(2).get();
+        assertThrows(NotExistUserException.class, () -> {
+            User savedUser = userStorage.getUser(2);
         });   // и сохраненного пользователя - совпадают
     }
 
@@ -77,7 +77,8 @@ public class UserDbStorageTest {
 
     @Test
     public void testDeleteUserByFailId() {
-        User newUserOne = new User(1L, "user@email.ru", "vanya123", "Ivan Petrov", LocalDate.of(1990, 1, 1));
+        User newUserOne = new User(1L, "user@email.ru", "vanya123", "Ivan Petrov",
+                LocalDate.of(1990, 1, 1));
         UserDbStorage userStorage = new UserDbStorage(jdbcTemplate);
         userStorage.addUser(newUserOne);
         assertThrows(NotExistUserException.class, () -> {
@@ -87,13 +88,15 @@ public class UserDbStorageTest {
 
     @Test
     public void testUpdateUser() {
-        User newUserOne = new User(1L, "user@email.ru", "vanya123", "Ivan Petrov", LocalDate.of(1990, 1, 1));
-        User newUserTwo = new User(1L, "userTwo@email.ru", "Ivan123", "Ivan Ivanov", LocalDate.of(1996, 3, 13));
+        User newUserOne = new User(1L, "user@email.ru", "vanya123", "Ivan Petrov",
+                LocalDate.of(1990, 1, 1));
+        User newUserTwo = new User(1L, "userTwo@email.ru", "Ivan123", "Ivan Ivanov",
+                LocalDate.of(1996, 3, 13));
         UserDbStorage userDbStorage = new UserDbStorage(jdbcTemplate);
         userDbStorage.addUser(newUserOne);
 
         userDbStorage.updateUser(newUserTwo);
-        User updateUser = userDbStorage.getUser(1L).get();
+        User updateUser = userDbStorage.getUser(1L);
 
         assertThat(updateUser)
                 .isNotNull()
@@ -103,8 +106,10 @@ public class UserDbStorageTest {
 
     @Test
     public void testUpdateFailUser() {
-        User newUserOne = new User(1L, "user@email.ru", "vanya123", "Ivan Petrov", LocalDate.of(1990, 1, 1));
-        User newUserTwo = new User(2L, "userTwo@email.ru", "Ivan123", "Ivan Ivanov", LocalDate.of(1996, 3, 13));
+        User newUserOne = new User(1L, "user@email.ru", "vanya123", "Ivan Petrov",
+                LocalDate.of(1990, 1, 1));
+        User newUserTwo = new User(2L, "userTwo@email.ru", "Ivan123", "Ivan Ivanov",
+                LocalDate.of(1996, 3, 13));
         UserDbStorage userDbStorage = new UserDbStorage(jdbcTemplate);
         userDbStorage.addUser(newUserOne);
 

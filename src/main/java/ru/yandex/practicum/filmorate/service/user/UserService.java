@@ -41,7 +41,7 @@ public class UserService {
 
     // Получить пользователя по id
     public User getUserById(int userId) {
-        return userStorage.getUser(userId).get();
+        return userStorage.getUser(userId);
     }
 
     //Удаление пользователя по идентификатору

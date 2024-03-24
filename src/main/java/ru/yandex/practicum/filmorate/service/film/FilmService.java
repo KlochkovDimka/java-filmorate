@@ -45,7 +45,7 @@ public class FilmService {
 
     // Получение фильма по id
     public Film getFilmById(int filmId) {
-        return filmStorage.getFilm(filmId).get();
+        return filmStorage.getFilm(filmId);
     }
 
     //Добавление лайка фильму по идентификационным номерам фильма и пользователя

@@ -62,8 +62,7 @@ public class GenresFilmsStorageDaoImpl implements GenresStorageFilmsDao {
 
             log.info("Получен жанр {}", genre);
             return genre;
-        } else {
-            throw new NotExistGenreException(String.format("Жанра с id = %s не существует", genreId));
         }
+        throw new NotExistGenreException(String.format("Жанра с id = %s не существует", genreId));
     }
 }

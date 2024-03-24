@@ -38,10 +38,8 @@ public class MpaStorageDaoImpl implements MpaStorageDao {
             Mpa mpa = new Mpa(
                     rowSet.getInt("MPA_ID"),
                     rowSet.getString("NAME"));
-            log.info("Получи MPA {}", mpa);
             return mpa;
-        } else {
-            throw new NotExistMpaException(String.format("Рейтинга с id = %s не существует", mpaId));
         }
+        throw new NotExistMpaException(String.format("Рейтинга с id = %s не существует", mpaId));
     }
 }

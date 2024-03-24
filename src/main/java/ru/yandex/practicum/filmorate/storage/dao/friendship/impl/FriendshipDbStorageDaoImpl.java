@@ -46,7 +46,7 @@ public class FriendshipDbStorageDaoImpl implements FriendshipDbStorageDao {
 
     @Override
     public User addInListFriendsById(Long userId, Long friendId, int statusId) {
-        String sql = "INSERT INTO FRIENDSHIP VALUES (?,?,?);";
+        String sql = "INSERT INTO FRIENDSHIP(USER_ID, FRIENDS_ID, STATUS_ID) VALUES (?,?,?);";
         log.info("userId={}, friendId={}, statusId{}", userId, friendId, statusId);
         jdbcTemplate.update(sql, userId, friendId, statusId);
         return getFriendByUser(userId).get();
@@ -91,9 +91,8 @@ public class FriendshipDbStorageDaoImpl implements FriendshipDbStorageDao {
                     userRow.getDate("birthday").toLocalDate());
             user.setId(userRow.getLong("id"));
             return Optional.of(user);
-        } else {
-            throw new NotExistUserException("User not found");
         }
+        throw new NotExistUserException("User not found");
     }
 
     private void isUser(long userId) {

@@ -40,7 +40,7 @@ public class FilmDbStorageTest {
         FilmDbStorage filmDbStorage = new FilmDbStorage(jdbcTemplate, genresFilmsStorageDao, mpaStorageDao);
         filmDbStorage.saveFilm(newFilm);
 
-        Film savedFilm = filmDbStorage.getFilm(1).get();
+        Film savedFilm = filmDbStorage.getFilm(1);
 
         assertThat(savedFilm)
                 .isNotNull()
@@ -118,7 +118,7 @@ public class FilmDbStorageTest {
         filmDbStorage.saveFilm(newFilm);
         filmDbStorage.updateFilm(newFilmTwo);
 
-        Film updateFilm = filmDbStorage.getFilm(1).get();
+        Film updateFilm = filmDbStorage.getFilm(1);
 
         assertThat(updateFilm)
                 .isNotNull()

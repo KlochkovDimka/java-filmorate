@@ -17,7 +17,6 @@ import ru.yandex.practicum.filmorate.model.Genre;
 import ru.yandex.practicum.filmorate.storage.dao.mpa.impl.MpaStorageDaoImpl;
 
 import java.util.List;
-import java.util.Optional;
 
 @Primary
 @Component
@@ -86,7 +85,7 @@ public class FilmDbStorage implements FilmStorage {
     }
 
     @Override
-    public Optional<Film> getFilm(int id) {
+    public Film getFilm(int id) {
         isFilm(id);
         SqlRowSet filmRow = jdbcTemplate.queryForRowSet("SELECT* FROM FILMS WHERE ID=?", id);
 
@@ -98,10 +97,9 @@ public class FilmDbStorage implements FilmStorage {
                     filmRow.getDate("releaseDate").toLocalDate(),
                     filmRow.getLong("duration"),
                     mpaStorageDao.getMpaById(filmRow.getInt("mpa_id")));
-            return Optional.of(film);
-        } else {
-            return Optional.empty();
+            return film;
         }
+        throw new NotExistFilmException("Not found film");
     }
 
     @Override
@@ -130,11 +128,10 @@ public class FilmDbStorage implements FilmStorage {
 
     public String getNameMpa(int mpaId) {
         SqlRowSet rowSet = jdbcTemplate.queryForRowSet("SELECT  m.NAME  FROM MPA m  where m.MPA_ID = ?;", mpaId);
-        if (rowSet.next())
+        if (rowSet.next()) {
             return rowSet.getString("name");
-        else {
-            throw new NotExistMpaException("Данного рейтинга не существует");
         }
+        throw new NotExistMpaException("Данного рейтинга не существует");
     }
 
     private void isMpaById(int mpaId) {
@@ -151,11 +148,11 @@ public class FilmDbStorage implements FilmStorage {
     }
 
     private int getNowFilmId() {
-        SqlRowSet sqlRowSet = jdbcTemplate.queryForRowSet("SELECT f.ID  FROM public.FILMS f ORDER BY f.ID DESC LIMIT 1;");
+        SqlRowSet sqlRowSet = jdbcTemplate.queryForRowSet("SELECT f.ID  FROM public.FILMS f " +
+                "ORDER BY f.ID DESC LIMIT 1;");
         if (sqlRowSet.next()) {
             return sqlRowSet.getInt("id");
-        } else {
-            throw new NotExistFilmException("Ошибка добавления фильма");
         }
+        throw new NotExistFilmException("Ошибка добавления фильма");
     }
 }

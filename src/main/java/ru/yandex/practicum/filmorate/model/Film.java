@@ -12,9 +12,7 @@ import java.util.Set;
 /**
  * Film.
  */
-@Setter
-@Getter
-@ToString
+@Data
 public class Film {
     private Set<Integer> likesFromUsers = new HashSet<>();
 

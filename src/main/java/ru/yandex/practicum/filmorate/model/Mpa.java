@@ -5,14 +5,15 @@ import lombok.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 
-@Setter
-@Getter
-@AllArgsConstructor
-@NoArgsConstructor
-@ToString
+@Data
 public class Mpa {
     @Positive
     private int id;
     @NotNull
     private String name;
+
+    public Mpa(int id, String name) {
+        this.id = id;
+        this.name = name;
+    }
 }

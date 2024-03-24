@@ -12,7 +12,6 @@ import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.storage.dao.users.UserStorage;
 
 import java.util.List;
-import java.util.Optional;
 
 @Component
 @Primary
@@ -21,7 +20,6 @@ import java.util.Optional;
 public class UserDbStorage implements UserStorage {
 
     private final JdbcTemplate jdbcTemplate;
-    private long generatedId = 1;
 
     @Autowired
     public UserDbStorage(JdbcTemplate jdbcTemplate) {
@@ -38,8 +36,9 @@ public class UserDbStorage implements UserStorage {
                 user.getLogin(),
                 user.getName(),
                 user.getBirthday());
-        log.info("пользователь добавлен {}", newUser().get());
-        return newUser().get();
+        log.info("пользователь добавлен {}", getNewUserId());
+        user.setId(getNewUserId());
+        return user;
     }
 
     @Override
@@ -67,7 +66,7 @@ public class UserDbStorage implements UserStorage {
     }
 
     @Override
-    public Optional<User> getUser(long id) {
+    public User getUser(long id) {
 
         SqlRowSet userRow = jdbcTemplate.queryForRowSet("SELECT* FROM USERS WHERE id = ?", id);
 
@@ -79,10 +78,9 @@ public class UserDbStorage implements UserStorage {
                     userRow.getString("name"),
                     userRow.getDate("birthday").toLocalDate());
             user.setId(userRow.getLong("id"));
-            return Optional.of(user);
-        } else {
-            return Optional.empty();
+            return user;
         }
+        throw new NotExistUserException("User not found");
     }
 
     @Override
@@ -111,19 +109,11 @@ public class UserDbStorage implements UserStorage {
         }
     }
 
-    private Optional<User> newUser() {
-        SqlRowSet userRow = jdbcTemplate.queryForRowSet("SELECT * FROM USERS u  ORDER BY u.ID DESC LIMIT 1;");
+    private Long getNewUserId() {
+        SqlRowSet userRow = jdbcTemplate.queryForRowSet("SELECT u.ID FROM USERS u  ORDER BY u.ID DESC LIMIT 1;");
         if (userRow.next()) {
-            User user = new User(
-                    userRow.getInt("id"),
-                    userRow.getString("email"),
-                    userRow.getString("login"),
-                    userRow.getString("name"),
-                    userRow.getDate("birthday").toLocalDate());
-            user.setId(userRow.getLong("id"));
-            return Optional.of(user);
-        } else {
-            throw new NotExistUserException("User not found");
+            return userRow.getLong("ID");
         }
+        throw new NotExistUserException("User not found");
     }
 }
