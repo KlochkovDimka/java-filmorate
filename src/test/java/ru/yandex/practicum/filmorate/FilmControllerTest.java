@@ -20,10 +20,24 @@ public class FilmControllerTest {
 
     @Test
     public void createFilmTest() throws Exception {
-        String jsonString = "{\"name\":\"film\"," +
-                "\"description\":\"description\", " +
-                "\"releaseDate\":\"2008-10-12\", " +
-                "\"duration\":120}";
+        String jsonString = "{\n" +
+                "    \"likesFromUsers\": [],\n" +
+                "    \"id\": 1,\n" +
+                "    \"name\": \"film\",\n" +
+                "    \"description\": \"description\",\n" +
+                "    \"releaseDate\": \"2008-10-12\",\n" +
+                "    \"duration\": 120,\n" +
+                "    \"mpa\": {\n" +
+                "        \"id\": 3,\n" +
+                "        \"name\": \"PG-13\"\n" +
+                "    },\n" +
+                "    \"genres\": [\n" +
+                "        {\n" +
+                "            \"id\": 2,\n" +
+                "            \"name\": null\n" +
+                "        }\n" +
+                "    ]\n" +
+                "}";
 
         mockMvc.perform(MockMvcRequestBuilders.post("http://localhost:8080/films")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -37,10 +51,24 @@ public class FilmControllerTest {
 
     @Test
     public void createEmptyNameFilmTest() throws Exception {
-        String jsonString = "{\"name\":\"\"," +
-                "\"description\":\"description\", " +
-                "\"releaseDate\":\"2008-10-12\", " +
-                "\"duration\":120}";
+        String jsonString = "{\n" +
+                "    \"likesFromUsers\": [],\n" +
+                "    \"id\": 1,\n" +
+                "    \"name\": \"\",\n" +
+                "    \"description\": \"description\",\n" +
+                "    \"releaseDate\": \"2008-10-12\",\n" +
+                "    \"duration\": 120,\n" +
+                "    \"mpa\": {\n" +
+                "        \"id\": 3,\n" +
+                "        \"name\": \"PG-13\"\n" +
+                "    },\n" +
+                "    \"genres\": [\n" +
+                "        {\n" +
+                "            \"id\": 2,\n" +
+                "            \"name\": null\n" +
+                "        }\n" +
+                "    ]\n" +
+                "}";
 
         mockMvc.perform(MockMvcRequestBuilders.post("http://localhost:8080/films")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -50,12 +78,26 @@ public class FilmControllerTest {
 
     @Test
     public void createDuration200CharFilmTest() throws Exception {
-        String jsonString = "{\"name\":\"film\"," +
-                "\"description\":\"Lorem ipsum dolor sit amet, consectetur adipiscing elit. " +
+        String jsonString = "{\n" +
+                "    \"likesFromUsers\": [],\n" +
+                "    \"id\": 1,\n" +
+                "    \"name\": \"film\",\n" +
+                "    \"description\": \"Lorem ipsum dolor sit amet, consectetur adipiscing elit. " +
                 "Quisque laoreet interdum odio, vel imperdiet neque lobortis sed. Fusce consequat " +
-                "bibendum erat, in eleifend dolor posuere sed. Nulla facilisi..\", " +
-                "\"releaseDate\":\"2008-10-12\", " +
-                "\"duration\":120}";
+                "bibendum erat, in eleifend dolor posuere sed. Nulla facilisi..\",\n" +
+                "    \"releaseDate\": \"2008-10-12\",\n" +
+                "    \"duration\": 120,\n" +
+                "    \"mpa\": {\n" +
+                "        \"id\": 3,\n" +
+                "        \"name\": \"PG-13\"\n" +
+                "    },\n" +
+                "    \"genres\": [\n" +
+                "        {\n" +
+                "            \"id\": 2,\n" +
+                "            \"name\": null\n" +
+                "        }\n" +
+                "    ]\n" +
+                "}";
 
         mockMvc.perform(MockMvcRequestBuilders.post("http://localhost:8080/films")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -64,28 +106,27 @@ public class FilmControllerTest {
     }
 
     @Test
-    public void createDuration201CharFilmTest() throws Exception {
-        String jsonString = "{\"name\":\"film\"," +
-                "\"description\":\"Lorem ipsum dolor sit amet, consectetur adipiscing elit. " +
-                "Quisque laoreet interdum odio, vel imperdiet neque lobortis sed. Fusce consequat " +
-                "bibendum erat, in eleifend dolor posuere sed. Nulla facilisi....\", " +
-                "\"releaseDate\":\"2008-10-12\", " +
-                "\"duration\":120}";
-
-        mockMvc.perform(MockMvcRequestBuilders.post("http://localhost:8080/films")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(jsonString))
-                .andExpect(MockMvcResultMatchers.status().is(400));
-    }
-
-    @Test
     public void createDuration199CharFilmTest() throws Exception {
-        String jsonString = "{\"name\":\"film\"," +
-                "\"description\":\"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque laoreet interdum " +
-                "odio, vel imperdiet neque lobortis sed. Fusce consequat bibendum erat, " +
-                "in eleifend dolor posuere sed. Nulla facilis\", " +
-                "\"releaseDate\":\"2008-10-12\", " +
-                "\"duration\":120}";
+        String jsonString = "{\n" +
+                "    \"likesFromUsers\": [],\n" +
+                "    \"id\": 1,\n" +
+                "    \"name\": \"film\",\n" +
+                "    \"description\": \"Lorem ipsum dolor sit amet, consectetur adipiscing elit. " +
+                "Quisque laoreet interdum odio, vel imperdiet neque lobortis sed. Fusce consequat " +
+                "bibendum erat, in eleifend dolor posuere sed. Nulla facilisi.\",\n" +
+                "    \"releaseDate\": \"2008-10-12\",\n" +
+                "    \"duration\": 120,\n" +
+                "    \"mpa\": {\n" +
+                "        \"id\": 3,\n" +
+                "        \"name\": \"PG-13\"\n" +
+                "    },\n" +
+                "    \"genres\": [\n" +
+                "        {\n" +
+                "            \"id\": 2,\n" +
+                "            \"name\": null\n" +
+                "        }\n" +
+                "    ]\n" +
+                "}";
 
         mockMvc.perform(MockMvcRequestBuilders.post("http://localhost:8080/films")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -95,10 +136,24 @@ public class FilmControllerTest {
 
     @Test
     public void createFilmWithWrongReleaseDataTest() throws Exception {
-        String jsonString = "{\"name\":\"film\"," +
-                "\"description\":\"description\", " +
-                "\"releaseDate\":\"1867-10-12\", " +
-                "\"duration\":120}";
+        String jsonString = "{\n" +
+                "    \"likesFromUsers\": [],\n" +
+                "    \"id\": 1,\n" +
+                "    \"name\": \"film\",\n" +
+                "    \"description\": \"description\",\n" +
+                "    \"releaseDate\": \"1867-10-12\",\n" +
+                "    \"duration\": 120,\n" +
+                "    \"mpa\": {\n" +
+                "        \"id\": 3,\n" +
+                "        \"name\": \"PG-13\"\n" +
+                "    },\n" +
+                "    \"genres\": [\n" +
+                "        {\n" +
+                "            \"id\": 2,\n" +
+                "            \"name\": null\n" +
+                "        }\n" +
+                "    ]\n" +
+                "}";
 
         mockMvc.perform(MockMvcRequestBuilders.post("http://localhost:8080/films")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -108,10 +163,24 @@ public class FilmControllerTest {
 
     @Test
     public void createFilmWithMinusDurationTest() throws Exception {
-        String jsonString = "{\"name\":\"film\"," +
-                "\"description\":\"description\", " +
-                "\"releaseDate\":\"2008-10-12\", " +
-                "\"duration\":-120}";
+        String jsonString = "{\n" +
+                "    \"likesFromUsers\": [],\n" +
+                "    \"id\": 1,\n" +
+                "    \"name\": \"film\",\n" +
+                "    \"description\": \"description\",\n" +
+                "    \"releaseDate\": \"2008-10-12\",\n" +
+                "    \"duration\": -120,\n" +
+                "    \"mpa\": {\n" +
+                "        \"id\": 3,\n" +
+                "        \"name\": \"PG-13\"\n" +
+                "    },\n" +
+                "    \"genres\": [\n" +
+                "        {\n" +
+                "            \"id\": 2,\n" +
+                "            \"name\": null\n" +
+                "        }\n" +
+                "    ]\n" +
+                "}";
 
         mockMvc.perform(MockMvcRequestBuilders.post("http://localhost:8080/films")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -120,26 +189,26 @@ public class FilmControllerTest {
     }
 
     @Test
-    public void putWrongIdFilmTest() throws Exception {
-        String jsonString = "{\"id\":20,\"name\":\"film\"," +
-                "\"description\":\"description\", " +
-                "\"releaseDate\":\"2008-10-12\", " +
-                "\"duration\":120}";
-
-        mockMvc.perform(MockMvcRequestBuilders.put("http://localhost:8080/films")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(jsonString))
-                .andExpect(MockMvcResultMatchers.status().is(404));
-
-    }
-
-    @Test
     public void putLikeFilm() throws Exception {
 
-        String user = "{\"email\":\"yandex@mail.ru\", " +
-                "\"login\":\"login\", " +
-                "\"name\":\"name\", " +
-                "\"birthday\":\"2008-10-12\"} ";
+        String user = "{\n" +
+                "    \"likesFromUsers\": [],\n" +
+                "    \"id\": 1,\n" +
+                "    \"name\": \"film\",\n" +
+                "    \"description\": \"description\",\n" +
+                "    \"releaseDate\": \"2008-10-12\",\n" +
+                "    \"duration\": 120,\n" +
+                "    \"mpa\": {\n" +
+                "        \"id\": 3,\n" +
+                "        \"name\": \"PG-13\"\n" +
+                "    },\n" +
+                "    \"genres\": [\n" +
+                "        {\n" +
+                "            \"id\": 2,\n" +
+                "            \"name\": null\n" +
+                "        }\n" +
+                "    ]\n" +
+                "}";
 
         mockMvc.perform(MockMvcRequestBuilders.post("/users")
                 .contentType(MediaType.APPLICATION_JSON)

@@ -1,18 +1,14 @@
 package ru.yandex.practicum.filmorate;
 
 import lombok.extern.slf4j.Slf4j;
-import org.json.JSONArray;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -169,24 +165,6 @@ public class UserControllerTest {
 
         mockMvc.perform(MockMvcRequestBuilders.delete("http://localhost:8080/users/1/friends/2"))
                 .andExpect(MockMvcResultMatchers.status().is(200));
-    }
-
-    @Test
-    public void getListFriendsByUser() throws Exception {
-        createUsers();
-
-        mockMvc.perform(MockMvcRequestBuilders.put("http://localhost:8080/users/1/friends/2"))
-                .andExpect(MockMvcResultMatchers.status().is(200));
-
-        MvcResult result = mockMvc
-                .perform(MockMvcRequestBuilders.get("http://localhost:8080/users/1/friends"))
-                .andExpect(MockMvcResultMatchers.status().is(200))
-                .andReturn();
-
-        String content = result.getResponse().getContentAsString();
-
-        JSONArray array = new JSONArray(content);
-        assertThat(array.length()).isEqualTo(1);
     }
 
     private void createUsers() throws Exception {

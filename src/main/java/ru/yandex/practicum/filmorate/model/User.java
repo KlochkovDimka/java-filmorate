@@ -1,13 +1,9 @@
 package ru.yandex.practicum.filmorate.model;
 
-import lombok.Data;
+import lombok.*;
 
 import javax.validation.constraints.*;
 import java.time.LocalDate;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
 
 /**
  * User.
@@ -15,8 +11,7 @@ import java.util.Set;
 @Data
 public class User {
 
-    private int id;
-    private Map<Integer, StatusFriendship> friends = new HashMap<>();
+    private long id;
 
     @NotBlank
     @Email
@@ -30,19 +25,11 @@ public class User {
     @Past
     private LocalDate birthday;
 
-    public Set<Integer> getFriends() {
-        return new HashSet<>(friends.keySet());
+    public User(long id, String email, String login, String name, LocalDate birthday) {
+        this.id = id;
+        this.email = email;
+        this.login = login;
+        this.name = name;
+        this.birthday = birthday;
     }
-
-    //Добавление в друзья
-    public void addFriends(int idFriend, StatusFriendship status) {
-        friends.put(idFriend, status);
-    }
-
-    //Удаление из друзей
-    public void removeFriend(int idFriend) {
-        friends.remove(idFriend);
-    }
-
-
 }
